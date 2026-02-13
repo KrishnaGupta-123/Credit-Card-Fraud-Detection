@@ -18,7 +18,7 @@ ratio = float(len(y_train[y_train == 0]) / len(y_train[y_train == 1]))
 
 xgb_model = xgb.XGBClassifier(
     n_estimators=100,
-    max_depth=8,
+    max_depth=6,
     learning_rate=0.1,
     tree_method='hist', #making bins so instead of looking for indivisual data points 
                         # it looks at sets of them.It then only tests the boundaries
@@ -35,5 +35,6 @@ xgb_model.fit(X_train_scaled, y_train)
 y_pred = xgb_model.predict(X_test_scaled)
 plot_confusion_matrix(y_test, y_pred, title='Phase 4: XGBoost (GPU Accelerated)')
 
+# 5.Feature Importance
 plot_importance(xgb_model, max_num_features=10, importance_type='gain')
 plt.show()
