@@ -13,7 +13,7 @@ y_train=data['y_train']
 X_test_scaled=data['X_test_scaled']
 y_test=data['y_test']
 
-tree_clf=DecisionTreeClassifier(criterion='entropy',max_depth=3,
+tree_clf=DecisionTreeClassifier(criterion='entropy',max_depth=20,
                                 class_weight='balanced',random_state=1)
 tree_clf.fit(X_train_scaled,y_train)
 y_pred=tree_clf.predict(X_test_scaled)
