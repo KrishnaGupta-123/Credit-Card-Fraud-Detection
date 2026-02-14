@@ -67,7 +67,7 @@ The following table tracks the evolution of the model's ability to detect fraud 
 | :--- | :--- | :---: | :---: | :--- |
 | **Logistic Regression** | Threshold default (No SMOTE) | 32 | 8 | **Linear Baseline** |
 | **Logistic Regression** | Threshold 0.05 (Tuned) | 22 | 22 | **Recall Improved** |
-| **Logistic Regression** | SMOTE Balanced | 10 | 1247 | **Statistical Baseline** |
+| **Logistic Regression** | SMOTE Balanced | 10 | 1247 |**Hyper-Sensitive** |
 | **Decision Tree** | Baseline (No SMOTE) | 22 | 28 | **Non-Linear Base** |
 | **Decision Tree** | SMOTE Balanced | 19 | 253 | **High Sensitivity** |
 | **Random Forest** | Baseline (No SMOTE) | 21 | **5** | **Precision King** |
