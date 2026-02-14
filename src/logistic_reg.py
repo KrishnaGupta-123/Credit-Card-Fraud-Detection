@@ -35,10 +35,22 @@ print(f"Optimal_threshold:{new_threshold}")
 y_pred_new=(y_scores>=new_threshold).astype(int)
 plot_confusion_matrix(y_test, y_pred_new,title='Logistic_Regression_threshold(0.05)')
 
+
+data1=joblib.load('data/processed/smote_data.pkl')
+X_train_resampled=data1['X_train_resampled']
+y_train_resampled=data1['y_train_resampled']
+
+LogReg_smote=LogisticRegression(max_iter=1000)
+LogReg_smote.fit(X_train_resampled,y_train_resampled)
+y_pred_smote=LogReg_smote.predict(X_test_scaled)
+plot_confusion_matrix(y_test,y_pred_smote ,title='Logistic_Regression_threshold(default) Smote')
+
 # Save the trained model
-model_path_bst = 'models/Logistic_reg_22_22.pkl'
-model_path='models/Logistic_reg_32_8.pkl'
-joblib.dump(LogReg, model_path)
+model_path_bst='models/Logistic_reg_32_8.pkl'
+joblib.dump(LogReg, model_path_bst)
+model_path = 'models/Logistic_reg_smote_10_1247.pkl'
+joblib.dump(LogReg_smote,model_path)
+
 
 print(f"✅ Model successfully exported !!!")
 # The TP now increased from 49 to 64 and FN reduced to 23 from 38
