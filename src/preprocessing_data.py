@@ -2,9 +2,6 @@ import joblib
 import os
 from sklearn.preprocessing import StandardScaler
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-data_path = os.path.join(BASE_DIR, '..', 'data', 'raw', 'creditcard.csv')
-
 data=joblib.load(r'data\processed\fraud_data_split.pkl')
 
 X_train=data['X_train']
