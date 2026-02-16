@@ -1,0 +1,16 @@
+# Data Manipulation & Math
+numpy
+pandas
+
+# Machine Learning & Optimization
+scikit-learn
+xgboost
+optuna
+
+# Deep Learning (Phase 5)
+tensorflow>=2.15.0
+
+# Visualization & Utilities
+matplotlib
+seaborn
+joblib

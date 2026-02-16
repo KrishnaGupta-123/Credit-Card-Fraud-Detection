@@ -30,3 +30,14 @@ def corelation_matrix(df):
     pd.set_option('display.float_format', lambda x: '{:.5f}'.format(x))
 
     print(corr_matrix.to_string())
+
+def plot_training_history(history):
+    plt.figure(figsize=(10, 6))
+    plt.plot(history['loss'], label='Training Loss (MSE)')
+    plt.plot(history['val_loss'], label='Validation Loss (MSE)')
+    plt.title('Phase 5: Autoencoder Reconstruction Error Progression')
+    plt.ylabel('Mean Squared Error')
+    plt.xlabel('Epoch')
+    plt.legend(loc='upper right')
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.show()

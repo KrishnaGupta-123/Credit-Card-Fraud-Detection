@@ -10,7 +10,7 @@ Managed with a modular MLOps-ready directory structure:
 * `data/raw/`: Original dataset (ignored by Git for security).
 * `data/processed/`: Scaled, split, and SMOTE-balanced data.
 * `src/`: Python scripts for data processing, utility functions, and model training.
-* `models/`: Saved `.pkl` files of the best performing models.
+* `models/`: Saved `.pkl` and `.h5` files of the best performing models.
 
 ## 🚀 Phase 1: Baseline Logistic Regression
 Established a baseline using Vanilla Logistic Regression to understand the data's linear separability.
@@ -82,6 +82,39 @@ The following table tracks the evolution of the model's ability to detect fraud 
 * **Modular MLOps:** Developed automated scripts for metric reporting (`utils.py`) and model persistence (`joblib`).
 * **Cost-Sensitive Learning:** Expertly balanced the tradeoff between security and customer friction using weighted penalty functions.
 
+
+## 🚀 Phase 5: Deep Learning & Anomaly Detection
+Transitioned to unsupervised and hybrid Deep Learning architectures using Autoencoders to capture complex, non-linear fraud signatures.
+
+### Data Utilization & Input Refinement
+To maintain continuity and performance, this phase utilized the optimized feature set developed in the previous stage:
+* **Feature Engineered Inputs:** Leveraged the refined dataset containing the **V14_V4_interaction** and excluding noise features (V24, V26, V27, V22, V23, V15, V25), as this configuration yielded superior results in earlier ensemble trials.
+* **Input Dimension:** The Autoencoder was built to process **24 high-signal features**, ensuring the model focused strictly on the most informative fraudulent patterns.
+
+### Architecture & Optimization
+Leveraged the **NVIDIA RTX 3050 GPU** to train a compressed latent representation of "Normal" transactions.
+* **Structure:** Symmetric "Sandwich" architecture — Input (24) → 10 → 5 (Bottleneck) → 10 → Output (24).
+* **Activations:** `tanh` for outer layers and `leaky_relu` for the bottleneck to prevent "dead neurons".
+* **Training:** 150 epochs using Adam optimizer and MSE loss, focused on minimizing reconstruction error for legitimate data.
+
+### 📊 Performance Benchmarks (Deep Learning)
+By applying a **95th percentile threshold** on reconstruction error, the unsupervised model achieved the highest sensitivity in the project history.
+
+| Model | Configuration | FN (Security) | FP (Precision) | Status |
+| :--- | :--- | :---: | :---: | :--- |
+| **Autoencoder** | Unsupervised (150 Epochs) | **12** | 2,907 | **Recall Champion** |
+| **Hybrid Model** | Softmax + Balanced Class | 16 | 2,918 | Hybrid Base |
+
+### Key Insights
+* **Unsupervised Breakthrough:** The Autoencoder identified 75 out of 87 frauds, surpassing the 16 FN of the Optuna-tuned XGBoost.
+* **Softmax Integration:** Transitioned to supervised fine-tuning by attaching a Softmax head to the frozen encoder weights.
+* **Balanced Class Performance:** Using balanced class weights with the Softmax head matched the XGBoost security benchmark with 16 False Negatives.
+* **Model Comparison:** While the Deep Learning approach achieved the absolute lowest False Negatives (12 FN) in an unsupervised state, the Optuna-optimized XGBoost model remains the best overall performer. It provided the most professional balance between security and precision, maintaining 16 FN with only 33 False Positives compared to the high false-alarm rates of the Deep Learning trials.
+
+### 🛠️ Technical Highlights (Deep Learning)
+* **Hardware Acceleration:** Leveraged 2,560 CUDA cores on the RTX 3050 for rapid 50-trial optimization and Deep Learning training.
+* **Modular MLOps:** Developed automated scripts for metric reporting and model persistence (`joblib` for ML, `.h5` for DL).
+* **Iterative Discovery:** Discovered the 12 FN "Champion" weights through extensive iterative training, utilizing model persistence to capture optimal reconstruction boundaries.
+
 ## 🏗️ Upcoming Phases
-- [ ] **Phase 5:** Anomaly detection using Deep Learning Autoencoders on **RTX 3050**.
 - [ ] **Phase 6:** Model Deployment and API creation.
